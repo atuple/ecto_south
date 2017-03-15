@@ -33,7 +33,7 @@ defmodule Ecto.South.Mixfile do
   end
 
   defp package do
-    [maintainers: ["sai",],
+    [maintainers: ["ntsai",],
      licenses: ["MIT"],
      links: %{github: "https://github.com/360ekh/ecto_south"},
      files: ~w(lib README.md mix.exs LICENSE)]
