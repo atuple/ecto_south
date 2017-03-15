@@ -1,8 +1,8 @@
 defmodule Ecto.South.Migrations do
   @data_path "./priv/repo/migrations.exs"
   @migrate_path "./priv/repo/migrations"
-  @mods  Application.get_env(:ecto_south, :mods) || []
 
+  def mods(), do: Application.get_env(:ecto_south, :mods) || []
   def old_data() do
     try do
       Code.eval_file(@data_path)
@@ -14,7 +14,7 @@ defmodule Ecto.South.Migrations do
 
   def run() do
     old = old_data()
-    new = meta_mod_all(@mods)
+    new = meta_mod_all(mods())
     unless old do
       diff(new, %{})
       init_migrations_file()
@@ -113,7 +113,7 @@ defmodule Ecto.South.Migrations do
   end
 
   def init_migrations_file() do
-    content = @mods |> meta_mod_all() |> Ecto.South.Migrations.Template.get
+    content = mods() |> meta_mod_all() |> Ecto.South.Migrations.Template.get
     File.write(@data_path, content)
   end
 end

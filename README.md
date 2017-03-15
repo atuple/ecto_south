@@ -9,7 +9,7 @@ by adding `ecto_south` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:ecto_south, "~> 0.1.1"}]
+  [{:ecto_south, "~> 0.1.2"}]
 end
 ```
 or
