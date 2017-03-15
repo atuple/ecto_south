@@ -3,8 +3,6 @@ defmodule Ecto.South.Migrations do
   @migrate_path "./priv/repo/migrations"
   @mods  Application.get_env(:ecto_south, :mods) || []
 
-  #all models
-  def mods(), do: Application.get_env(:ecto_south, :mods) || []
   def old_data() do
     try do
       Code.eval_file(@data_path)

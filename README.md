@@ -20,13 +20,16 @@ def deps do
 end
 ```
 
-Add model config to
+Add :ecto_south to your mix application
+```
+applications: [:ecto_south]]
+```
+Add model config to your project config.exs
 
 ```elixir
 config :ecto_south, :mods,
   [Simple.Weather]    #your project model module
 ```
-
 
 Run cmd
 ```
