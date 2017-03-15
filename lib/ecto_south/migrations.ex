@@ -42,18 +42,18 @@ defmodule Ecto.South.Migrations do
   end
 
   def meta_mod_all(mods) do
-    Enum.reduce(mods, %{}, fn(m, acc) ->
-      Map.put acc, m.__schema__(:source), meta_mod(m)
+    Enum.reduce(mods, [], fn(m, acc) ->
+      acc ++ [{String.to_atom(m.__schema__(:source)), meta_mod(m)}]
     end)
   end
 
   def diff(new, old) do
-    changes = for {k, v} <- Enum.to_list(new) do
+    changes = for {k, v} <- new do
       unless old[k] == v do
         unless old[k], do: create_table(k, v), else: check_field(k, v, old[k])
       end
     end
-    changes_drop = for {k, _} <- Enum.to_list(old) do
+    changes_drop = for {k, _} <- old do
       unless new[k], do: drop_table(k)
     end
     change_data = Enum.filter(changes ++ changes_drop, fn x -> x != nil end)

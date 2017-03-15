@@ -3,14 +3,14 @@ defmodule Ecto.South.Migrations.Template do
     """
     defmodule Ecto.South.Migrations.Data do
       def show do
-        %{<%= for {k, v} <- data do %>
-          "<%= k %>" => %{
+        [<%= for {k, v} <- data do %>
+          <%= k %>: %{
             primary_key: [ <%= for primary_key <- v.primary_key do %> :<%= primary_key %>, <% end %> ],
             types: %{
               <%=  for {tk, tv} <- Enum.to_list(v.types) do %><%= if tv == Elixir.Ecto.DateTime ||  tv == Elixir.Ecto.Date ||  tv == Elixir.Ecto.Time do %><%= tk %>: <%= tv %>, <% else %> <%= tk %>: :<%= tv %>, <% end %><% end %>
             }
           },<% end %>
-        }
+        ]
       end
     end
     """
