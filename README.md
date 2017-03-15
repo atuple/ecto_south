@@ -1,6 +1,6 @@
 # EctoSouth
 
-**TODO: Add description**
+**TODO: South brings ecto migrations to phoenix applications**
 
 ## Installation
 
@@ -9,7 +9,7 @@ by adding `ecto_south` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:ecto_south, "~> 0.1.2"}]
+  [{:ecto_south, "~> 0.1.3"}]
 end
 ```
 or
