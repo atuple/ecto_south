@@ -7,7 +7,7 @@ defmodule Ecto.South.Migrations.Template do
           "<%= k %>" => %{
             primary_key: [ <%= for primary_key <- v.primary_key do %> :<%= primary_key %>, <% end %> ],
             types: %{
-              <%=  for {tk, tv} <- Enum.to_list(v.types) do %><%= if tv == Elixir.Ecto.DateTime do %><%= tk %>: <%= tv %>, <% else %> <%= tk %>: :<%= tv %>, <% end %><% end %>
+              <%=  for {tk, tv} <- Enum.to_list(v.types) do %><%= if tv == Elixir.Ecto.DateTime ||  tv == Elixir.Ecto.Date ||  tv == Elixir.Ecto.Time do %><%= tk %>: <%= tv %>, <% else %> <%= tk %>: :<%= tv %>, <% end %><% end %>
             }
           },<% end %>
         }
