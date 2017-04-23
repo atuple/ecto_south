@@ -16,7 +16,7 @@ or
 
 ```elixir
 def deps do
-  [{:ecto_south, github: "360ekh/ecto_south"}]
+  [{:ecto_south, github: "atuple/ecto_south"}]
 end
 ```
 
