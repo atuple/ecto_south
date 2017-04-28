@@ -35,4 +35,4 @@ Run cmd
 ```
 mix south
 ```
-ecto_south will check your model chenges and auto create migrations File on your project. (./priv/repo/migrations)
+ecto_south will check your model changes and auto create migrations File on your project. (./priv/repo/migrations)
