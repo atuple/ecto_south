@@ -19,14 +19,19 @@ import Config
 
 config :simple, ecto_repos: [Sample.Repo]
 
-config :simple, Sample.Repo,
-  database: "ecto_simple",
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  port: "5432",
-  show_sensitive_data_on_connection_error: true
-#  pool_size: 10
+config :simple,
+       Sample.Repo,
+       database: "ecto_simple",
+       username: "postgres",
+       password: "postgres",
+       hostname: "localhost",
+       port: "5432",
+       show_sensitive_data_on_connection_error: true
+       #pool_size: 10
 
 config :ecto_south, :mods,
-  [Sample.Weather]
+       [Sample.Weather]
+
+config :ecto_south, :path,
+       data_path: "./priv/repo/migrations.exs",
+       migrate_path: "./priv/repo/migrations"

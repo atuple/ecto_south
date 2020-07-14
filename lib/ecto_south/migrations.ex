@@ -2,10 +2,20 @@ defmodule Ecto.South.Migrations do
   @data_path "./priv/repo/migrations.exs"
   @migrate_path "./priv/repo/migrations"
 
+  def get_data_path() do
+    conf = Application.get_env(:ecto_south, :path)
+    if conf, do: conf[:data_path] || @data_path, else: @data_path
+  end
+
+  def get_migrate_path() do
+    conf = Application.get_env(:ecto_south, :path)
+    if conf, do: conf[:data_path] || @migrate_path, else: @migrate_path
+  end
+
   def mods(), do: Application.get_env(:ecto_south, :mods) || []
   def old_data() do
     try do
-      Code.eval_file(@data_path)
+      Code.eval_file(get_data_path())
       Ecto.South.Migrations.Data.show()
     catch
       _, _ -> false
@@ -34,7 +44,7 @@ defmodule Ecto.South.Migrations do
       mod.__schema__(:fields),
       %{},
       fn (f, acc) ->
-        Map.put(acc, f, mod.__schema__(:type,f))
+        Map.put(acc, f, mod.__schema__(:type, f))
       end
     )
     types = Enum.reduce(
@@ -76,7 +86,7 @@ defmodule Ecto.South.Migrations do
 
     content = Ecto.South.Migrate.Template.get(change_data)
     file_name = "/#{string_time_now()}_south.exs"
-    File.write(@migrate_path <> file_name, content)
+    File.write(get_migrate_path() <> file_name, content)
   end
 
   def string_time_now() do
@@ -139,6 +149,6 @@ defmodule Ecto.South.Migrations do
     content = mods()
               |> meta_mod_all()
               |> Ecto.South.Migrations.Template.get
-    File.write(@data_path, content)
+    File.write(get_data_path(), content)
   end
 end

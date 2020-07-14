@@ -9,7 +9,7 @@ by adding `ecto_south` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:ecto_south, "~> 0.2.0"}]
+  [{:ecto_south, "~> 0.2.1"}]
 end
 ```
 or
@@ -36,3 +36,11 @@ Run cmd
 mix south
 ```
 ecto_south will check your model changes and auto create migrations File on your project. (./priv/repo/migrations)
+
+
+config.exs
+```
+config :ecto_south, :path,
+       data_path: "your path",   #default "./priv/repo/migrations.exs"
+       migrate_path: "your path" #default "./priv/repo/migrations"
+```
