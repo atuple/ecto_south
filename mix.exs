@@ -3,7 +3,7 @@ defmodule Ecto.South.Mixfile do
 
   def project do
     [app: :ecto_south,
-     version: "0.1.4",
+     version: "0.2.0",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -23,7 +23,7 @@ defmodule Ecto.South.Mixfile do
 
   defp deps do
     [
-      {:ecto, ">= 2.0.0"},
+      {:ecto_sql, "~> 3.0"},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]}
     ]
   end
@@ -35,7 +35,7 @@ defmodule Ecto.South.Mixfile do
   defp package do
     [maintainers: ["ntsai",],
      licenses: ["MIT"],
-     links: %{github: "https://github.com/360ekh/ecto_south"},
+     links: %{github: "https://github.com/atuple/ecto_south"},
      files: ~w(lib README.md mix.exs LICENSE)]
   end
 end

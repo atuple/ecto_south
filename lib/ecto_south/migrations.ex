@@ -8,7 +8,7 @@ defmodule Ecto.South.Migrations do
       Code.eval_file(@data_path)
       Ecto.South.Migrations.Data.show()
     catch
-      _,_ ->  false
+      _, _ -> false
     end
   end
 
@@ -30,11 +30,22 @@ defmodule Ecto.South.Migrations do
   end
 
   def meta_mod(mod) do
-    types = Enum.reduce(mod.__schema__(:associations), mod.__schema__(:types), fn(ref, acc) ->
-      ass = mod.__schema__(:association, ref)
-      type = String.to_atom "ref__#{ass.related.__schema__(:source)}"
-      Map.put acc, ass.owner_key, type
-    end)
+    mod_types = Enum.reduce(
+      mod.__schema__(:fields),
+      %{},
+      fn (f, acc) ->
+        Map.put(acc, f, mod.__schema__(:type,f))
+      end
+    )
+    types = Enum.reduce(
+      mod.__schema__(:associations),
+      mod_types,
+      fn (ref, acc) ->
+        ass = mod.__schema__(:association, ref)
+        type = String.to_atom "ref__#{ass.related.__schema__(:source)}"
+        Map.put acc, ass.owner_key, type
+      end
+    )
     %{
       types: types,
       primary_key: mod.__schema__(:primary_key)
@@ -42,9 +53,13 @@ defmodule Ecto.South.Migrations do
   end
 
   def meta_mod_all(mods) do
-    Enum.reduce(mods, [], fn(m, acc) ->
-      acc ++ [{String.to_atom(m.__schema__(:source)), meta_mod(m)}]
-    end)
+    Enum.reduce(
+      mods,
+      [],
+      fn (m, acc) ->
+        acc ++ [{String.to_atom(m.__schema__(:source)), meta_mod(m)}]
+      end
+    )
   end
 
   def diff(new, old) do
@@ -87,12 +102,20 @@ defmodule Ecto.South.Migrations do
   def check_field(table, new_data, old_data) do
     new = new_data[:types]
     old = old_data[:types]
-    change_add = Enum.reduce(Enum.to_list(new), [], fn({f, t}, acc) ->
-      unless old[f], do: acc ++ [%{action: :add, filed: f, type: t}], else: acc
-    end)
-    change_delete = Enum.reduce(Enum.to_list(old), [], fn({f, _}, acc) ->
-      unless new[f], do: acc ++ [%{action: :remove, filed: f}], else: acc
-    end)
+    change_add = Enum.reduce(
+      Enum.to_list(new),
+      [],
+      fn ({f, t}, acc) ->
+        unless old[f], do: acc ++ [%{action: :add, filed: f, type: t}], else: acc
+      end
+    )
+    change_delete = Enum.reduce(
+      Enum.to_list(old),
+      [],
+      fn ({f, _}, acc) ->
+        unless new[f], do: acc ++ [%{action: :remove, filed: f}], else: acc
+      end
+    )
     %{table: table, action: :alter, schema: change_add ++ change_delete}
   end
 
@@ -113,7 +136,9 @@ defmodule Ecto.South.Migrations do
   end
 
   def init_migrations_file() do
-    content = mods() |> meta_mod_all() |> Ecto.South.Migrations.Template.get
+    content = mods()
+              |> meta_mod_all()
+              |> Ecto.South.Migrations.Template.get
     File.write(@data_path, content)
   end
 end

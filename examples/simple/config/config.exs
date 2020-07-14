@@ -1,27 +1,32 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
+# This file is responsible for configuring your umbrella
+# and **all applications** and their dependencies with the
+# help of the Config module.
 #
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
-use Mix.Config
+# Note that all applications in your umbrella share the
+# same configuration and dependencies, which is why they
+# all use the same configuration file. If you want different
+# configurations or dependencies per app, it is best to
+# move said applications out of the umbrella.
+import Config
 
-# General application configuration
-config :simple,
-  ecto_repos: [Simple.Repo]
+#config :app_user, Game.Repo,
+#  database: "app_user_repo",
+#  username: "user",
+#  password: "pass",
+#  hostname: "localhost"
+#
+#config :app_user, ecto_repos: [Sample.Repo]
 
-# Configures the endpoint
-config :simple, Simple.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "u8T+46S+UnxIeXLlsIyxIxij8WYH5HQTbDORz3BcIozTtkOs59Oq2oJu5O4vQSiW",
-  render_errors: [view: Simple.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Simple.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+config :simple, ecto_repos: [Sample.Repo]
 
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
+config :simple, Sample.Repo,
+  database: "ecto_simple",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  port: "5432",
+  show_sensitive_data_on_connection_error: true
+#  pool_size: 10
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+config :ecto_south, :mods,
+  [Sample.Weather]
