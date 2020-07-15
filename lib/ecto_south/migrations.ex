@@ -9,7 +9,7 @@ defmodule Ecto.South.Migrations do
 
   def get_migrate_path() do
     conf = Application.get_env(:ecto_south, :path)
-    if conf, do: conf[:data_path] || @migrate_path, else: @migrate_path
+    if conf, do: conf[:migrate_path] || @migrate_path, else: @migrate_path
   end
 
   def mods(), do: Application.get_env(:ecto_south, :mods) || []
